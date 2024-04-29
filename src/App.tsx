@@ -1,6 +1,12 @@
 import { useState } from 'react';
-import * as yup from 'yup';
-import { Stack, Typography, Tab, Tabs, Button, TextField, Card, FormControlLabel, Checkbox, FormControl, FormHelperText, CardContent } from '@mui/material';
+import * as Yup from 'yup';
+import {
+  Stack,
+  Typography,
+  Tab,
+  Tabs,
+  Button
+} from '@mui/material';
 import { Formik, Form } from 'formik';
 
 import Information from './components/Information';
@@ -38,27 +44,33 @@ export default function App() {
   console.count()
   const [value, setValue] = useState<number>(0)
 
-
-  const validationSchema = yup.object({
-    campaign: yup.object({
-      information: yup.object({
-        name: yup
-          .string()
-          .required('Dữ liệu không hợp lệ')
+  const validationSchema = Yup.object().shape({
+    campaign: Yup.object().shape({
+      information: Yup.object().shape({
+        name: Yup.string()
+          .required("Dữ liệu không hợp lệ"),
+        describe: Yup.string()
       }),
-      subCampaigns: yup.array().of(
-        yup.object().shape({
-          name: yup.string().required("Dữ liệu không hợp lệ"),
-          ads: yup.array().of(
-            yup.object().shape({
-              name: yup.string().required("Dữ liệu không hợp lệ"),
-              quantity: yup.number().required("Dữ liệu không hợp lệ")
-            }),
-          )
-        }),
+      subCampaigns: Yup.array(
+        Yup.object({
+          name: Yup.string()
+            .required("Dữ liệu không hợp lệ"),
+          status: Yup.boolean()
+            .required(""),
+          ads: Yup.array(
+            Yup.object({
+              name: Yup.string()
+                .required("Dữ liệu không hợp lệ"),
+              quantity: Yup.number()
+                .min(1)
+                .required("Dữ liệu không hợp lệ"),
+            }))
+        })
       )
+
     })
-  });
+  })
+
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -83,19 +95,17 @@ export default function App() {
   }
 
   const handleSubmit = (values: Values, props: any) => {
-    console.log(`( values )===============>`, values);
-    // alert(JSON.stringify(values, null, 2));
+    alert(JSON.stringify(values));
   }
 
   return (
     <div className='mx-10 mt-10'>
       <Formik
         initialValues={initialValue}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ values, errors, touched }) => {
-          console.log(`( errors )===============>`, errors);
           return (
             <div>
               <Form>
@@ -112,11 +122,11 @@ export default function App() {
                     </Tabs>
                   </Stack>
                   <CustomTabPanel value={value} index={0}>
-                    <Information />
+                    <Information errors={errors} />
                   </CustomTabPanel>
 
                   <CustomTabPanel value={value} index={1}>
-                    <SubCampaign values={values} />
+                    <SubCampaign values={values} errors={errors} />
                   </CustomTabPanel>
                 </Stack>
               </Form>
@@ -124,8 +134,6 @@ export default function App() {
           );
         }}
       </Formik >
-
-      {/* // </form> */}
     </div >
   );
 }

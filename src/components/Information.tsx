@@ -1,13 +1,13 @@
 import { TextField } from "@mui/material"
 import { ErrorMessage, Field } from "formik"
 
-const Information = () => {
+const Information = ({ errors }: any) => {
     return (
         <>
             <Field
                 as={TextField}
                 required
-                error
+                error={errors?.campaign?.information?.name}
                 label="Tên chiến dịch"
                 type="text"
                 name="campaign.information.name"
@@ -19,13 +19,11 @@ const Information = () => {
             <Field
                 as={TextField}
                 label="Mô tả"
-                type="text"
                 name="campaign.information.describe"
+                type="text"
                 fullWidth
                 variant="standard"
                 margin="dense"
-                helperText={<ErrorMessage name="campaign.information.describe" />}
-            // error={props.errors.email && props.touched.email}
             />
         </>
     )
