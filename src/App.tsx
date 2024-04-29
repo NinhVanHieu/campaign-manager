@@ -73,6 +73,7 @@ export default function App() {
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log("======= event =======\n", event);
     setValue(newValue);
   };
 
