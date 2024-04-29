@@ -72,7 +72,7 @@ export default function App() {
   })
 
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (newValue: number) => {
     setValue(newValue);
   };
 
@@ -94,7 +94,7 @@ export default function App() {
     }
   }
 
-  const handleSubmit = (values: Values, props: any) => {
+  const handleSubmit = (values: Values) => {
     alert(JSON.stringify(values));
   }
 
@@ -105,7 +105,7 @@ export default function App() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, errors, touched }) => {
+        {({ values, errors }) => {
           return (
             <div>
               <Form>

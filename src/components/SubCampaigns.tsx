@@ -34,7 +34,7 @@ const SubCampaign = ({ values, errors }: Props) => {
 
     return (
         <FieldArray name="campaign.subCampaigns">
-            {({ remove, push }) => (
+            {({ push }) => (
                 <>
                     <div className='overflow-x-auto max-w-full h-[120px] mb-6'>
                         <div className="flex gap-4">
